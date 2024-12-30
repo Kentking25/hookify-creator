@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const platforms = [
   "Instagram",
@@ -44,6 +45,7 @@ export const HookForm = ({
     audience: string;
     contentType: string;
     trigger: string;
+    aiProvider: string;
   }) => void;
 }) => {
   const [topic, setTopic] = useState("");
@@ -51,15 +53,54 @@ export const HookForm = ({
   const [audience, setAudience] = useState("");
   const [contentType, setContentType] = useState<string>("");
   const [trigger, setTrigger] = useState<string>("");
+  const [aiProvider, setAIProvider] = useState<string>("template");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ topic, platform, audience, contentType, trigger });
+    onSubmit({ topic, platform, audience, contentType, trigger, aiProvider });
   };
 
   return (
     <Card className="w-full max-w-xl p-6 space-y-6 animate-fade-in">
       <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-4">
+          <Label>Generation Method</Label>
+          <RadioGroup
+            defaultValue="template"
+            value={aiProvider}
+            onValueChange={setAIProvider}
+            className="grid grid-cols-3 gap-4"
+          >
+            <div>
+              <RadioGroupItem value="template" id="template" className="peer sr-only" />
+              <Label
+                htmlFor="template"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <span>Template</span>
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem value="openai" id="openai" className="peer sr-only" />
+              <Label
+                htmlFor="openai"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <span>OpenAI</span>
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem value="anthropic" id="anthropic" className="peer sr-only" />
+              <Label
+                htmlFor="anthropic"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <span>Anthropic</span>
+              </Label>
+            </div>
+          </RadioGroup>
+        </div>
+
         <div className="space-y-2">
           <Label htmlFor="topic">What's your topic or message?</Label>
           <Input

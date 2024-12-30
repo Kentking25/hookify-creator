@@ -2,13 +2,29 @@ import { useState } from "react";
 import { HookForm } from "@/components/HookForm";
 import { HookDisplay } from "@/components/HookDisplay";
 import { generateHooks } from "@/services/hookGenerator";
+import { generateAIHooks } from "@/services/aiService";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [hooks, setHooks] = useState<ReturnType<typeof generateHooks>>([]);
+  const { toast } = useToast();
 
-  const handleSubmit = (data: Parameters<typeof generateHooks>[0]) => {
-    const generatedHooks = generateHooks(data);
-    setHooks(generatedHooks);
+  const handleSubmit = async (data: Parameters<typeof generateHooks>[0] & { aiProvider: string }) => {
+    try {
+      if (data.aiProvider === 'template') {
+        const generatedHooks = generateHooks(data);
+        setHooks(generatedHooks);
+      } else {
+        const aiHooks = await generateAIHooks(data.aiProvider as 'openai' | 'anthropic', data);
+        setHooks(aiHooks);
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to generate hooks. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
