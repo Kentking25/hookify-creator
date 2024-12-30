@@ -17,35 +17,35 @@ interface Hook {
 
 const templates = [
   {
-    template: "3 {topic} mistakes that are costing {audience} money",
+    template: "3 costly mistakes to avoid with {topic}",
     psychology: "Negativity Bias",
     triggers: ["Loss Aversion", "Curiosity"],
     response: "What mistakes am I making?",
     score: 8,
   },
   {
-    template: "The {topic} secret {audience} needs to know",
+    template: "The hidden {topic} secret you need to know",
     psychology: "Curiosity Gap",
     triggers: ["FOMO", "Exclusivity"],
     response: "I need to know this secret!",
     score: 9,
   },
   {
-    template: "Why {audience} is getting {topic} all wrong",
+    template: "The truth about {topic} nobody talks about",
     psychology: "Pattern Interrupt",
     triggers: ["Controversy", "Authority"],
     response: "How am I doing it wrong?",
     score: 7,
   },
   {
-    template: "This {topic} hack transformed how {audience} works",
+    template: "This {topic} hack changes everything",
     psychology: "Social Proof",
     triggers: ["Success Story", "Transformation"],
     response: "I want that transformation",
     score: 8,
   },
   {
-    template: "The {topic} method that's helping {audience} succeed",
+    template: "The proven {topic} method for success",
     psychology: "Aspiration",
     triggers: ["Achievement", "Hope"],
     response: "I want to succeed too",
@@ -64,8 +64,7 @@ const platformFitMap = {
 export const generateHooks = (input: HookInput): Hook[] => {
   return templates.map((template) => {
     const text = template.template
-      .replace("{topic}", input.topic.toLowerCase())
-      .replace("{audience}", input.audience.toLowerCase());
+      .replace("{topic}", input.topic.toLowerCase());
 
     return {
       text,
